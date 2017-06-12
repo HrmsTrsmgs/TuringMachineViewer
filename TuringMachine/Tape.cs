@@ -30,7 +30,17 @@ namespace Marimo.TuringMachineViewer.TuringMachine
                     CurrentIndex++;
                     break;
             }
+            while(plusStates.LastOrDefault() == Blank)
+            {
+                plusStates.RemoveAt(plusStates.Count - 1);
+            }
+
+            while (minusStates.LastOrDefault() == Blank)
+            {
+                minusStates.RemoveAt(minusStates.Count - 1);
+            }
             var d = this[CurrentIndex];
+
         }
 
         private List<string> plusStates = new List<string>();

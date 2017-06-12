@@ -25,7 +25,7 @@ namespace Marimo.TuringMachineViewer.Test.TuringMachine
 
             while (machine.MoveNext()) ;
 
-            machine.Tape.ToString().Is("11111__");
+            machine.Tape.ToString().Is("11111_");
         }
 
         [Fact]
@@ -69,7 +69,7 @@ namespace Marimo.TuringMachineViewer.Test.TuringMachine
 
             while (machine.MoveNext()) ;
 
-            machine.Tape.ToString().Is("1111111_______");
+            machine.Tape.ToString().Is("1111111_____");
         }
     }
 }
