@@ -12,25 +12,16 @@ namespace Marimo.TuringMachineViewer.TuringMachine
 
         public Tape Tape { get; }
 
-        public Machine(string blankSymble, IEnumerable<string> tape, params (string CurrentState, string ScannedSymbol, string PrintSymbol, Direction MoveTape, string NextState)[] table)
+        public Machine(string blankSymble, string startState, IEnumerable<string> tape, params (string CurrentState, string ScannedSymbol, string PrintSymbol, Direction MoveTape, string NextState)[] table)
         {
-            State = "1";
-
+            State = startState;
             Tape = new Tape(blankSymble, tape);
             this.table = table.ToDictionary(x => (x.CurrentState, x.ScannedSymbol), x => (x.PrintSymbol, x.MoveTape, x.NextState));
         }
         private Dictionary<(string CurrentState, string ScannedSymbol), (string PrintSymbol, Direction MoveTape, string NextState)> table { get; }
 
-        public IEnumerable<(string CurrentState, string ScannedSymbol, string PrintSymbol, Direction MoveTape, string NextState)> Table
-        {
-            get
-            {
-                foreach(var kv in table)
-                {
-                    yield return (kv.Key.CurrentState, kv.Key.ScannedSymbol, kv.Value.PrintSymbol, kv.Value.MoveTape, kv.Value.NextState);
-                }
-            }
-        }
+        public IEnumerable<(string CurrentState, string ScannedSymbol, string PrintSymbol, Direction MoveTape, string NextState)> Table =>
+            table.Select(kv => (kv.Key.CurrentState, kv.Key.ScannedSymbol, kv.Value.PrintSymbol, kv.Value.MoveTape, kv.Value.NextState));
         
         public bool MoveNext()
         {

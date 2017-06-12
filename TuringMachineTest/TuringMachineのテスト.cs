@@ -15,6 +15,7 @@ namespace Marimo.TuringMachineViewer.Test.TuringMachine
         {
             var machine =
                 new Machine("_",
+                    "1",
                     "111_11".ToCharArray().Select(x => x.ToString()),
                     ("1", "1", "1", Direction.Right, "1"),
                     ("1", "_", "1", Direction.Right, "2"),
@@ -32,6 +33,7 @@ namespace Marimo.TuringMachineViewer.Test.TuringMachine
         {
             var machine =
                 new Machine("_",
+                "1",
                 "111X11".ToCharArray().Select(x => x.ToString()),
                 ("1", "1", "1", Direction.Left, "2"),
                 ("2", "_", "*", Direction.Right, "3"),

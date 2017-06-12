@@ -8,14 +8,8 @@ class Program
 
     {
         var machine =
-            //new Machine("_",
-            //"111_11".ToCharArray().Select(x => x.ToString()),
-            //("1", "1", "1", Direction.Right, "1"),
-            //("1", "_", "1", Direction.Right, "2"),
-            //("2", "1", "1", Direction.Right, "2"),
-            //("2", "_", "_", Direction.Left, "3"),
-            //("3", "1", "_", Direction.NotMove, "4"));
             new Machine("_",
+            "1",
             "111X11".ToCharArray().Select(x => x.ToString()),
             ("1", "1", "1", Direction.Left, "2"),
             ("2", "_", "*", Direction.Right, "3"),
