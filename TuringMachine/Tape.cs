@@ -7,17 +7,20 @@ namespace Marimo.TuringMachineViewer.TuringMachine
 {
     public class Tape
     {
-        public Tape(string blank, IEnumerable<string> init)
-        {
-            Blank = blank;
-            plusStates.AddRange(init);
-        }
-
-        public string Blank { get; private set; }
+        public char Blank { get; }
 
         private int CurrentIndex { get; set; } = 0;
 
-        public int Position => CurrentIndex + minusStates.Count;
+        private Dictionary<int, char> symbols = new Dictionary<int, char>();
+
+        public Tape(char blank, IEnumerable<char> init)
+        {
+            Blank = blank;
+            foreach(var (value, index) in init.Select((v, i) => (v, i)))
+            {
+                this[index] = value;
+            }
+        }
 
         public void Move(Direction direction)
         {
@@ -30,69 +33,38 @@ namespace Marimo.TuringMachineViewer.TuringMachine
                     CurrentIndex++;
                     break;
             }
-            while(plusStates.LastOrDefault() == Blank)
-            {
-                plusStates.RemoveAt(plusStates.Count - 1);
-            }
-
-            while (minusStates.LastOrDefault() == Blank)
-            {
-                minusStates.RemoveAt(minusStates.Count - 1);
-            }
-            var d = this[CurrentIndex];
-
         }
 
-        private List<string> plusStates = new List<string>();
-        private List<string> minusStates = new List<string>();
+        public int DistanceFromLeftEnd => CurrentIndex - Math.Min(CurrentIndex, symbols.Any() ? symbols.Keys.Min() : CurrentIndex);
 
-        private string this[int index]
+
+        private char this[int index]
         {
             get
             {
-                if (0 <= index)
+                if(symbols.ContainsKey(index))
                 {
-                    while (plusStates.Count <= index)
-                    {
-                        plusStates.Add(Blank);
-                    }
-                    return plusStates[index];
+                    return symbols[index];
                 }
                 else
                 {
-                    var listIndex = -index - 1;
-
-                    while (minusStates.Count <= listIndex)
-                    {
-                        minusStates.Add(Blank);
-                    }
-                    return minusStates[listIndex];
+                    return Blank;
                 }
             }
             set
             {
-                if (0 <= index)
+                if(value == Blank)
                 {
-                    while (plusStates.Count <= index)
-                    {
-                        plusStates.Add(Blank);
-                    }
-                    plusStates[index] = value;
+                    symbols.Remove(index);
                 }
                 else
                 {
-                    var listIndex = -index - 1;
-
-                    while (minusStates.Count <= listIndex)
-                    {
-                        minusStates.Add(Blank);
-                    }
-                    minusStates[listIndex] = value;
+                    symbols[index] = value;
                 }
             }
         }
 
-        public string Current
+        public char Current
         {
             get
             {
@@ -104,9 +76,21 @@ namespace Marimo.TuringMachineViewer.TuringMachine
             }
         }
 
-        public override string ToString()
+        private IEnumerable<char> SymbolList
         {
-            return string.Join("", minusStates.Reverse<string>().Concat(plusStates));
+            get
+            {
+                var min = Math.Min(CurrentIndex, symbols.Any() ? symbols.Keys.Min() : CurrentIndex);
+                var max = Math.Max(CurrentIndex, symbols.Any() ? symbols.Keys.Max() : CurrentIndex);
+                for (int i = min; i <=
+                    
+                    max; i++)
+                {
+                    yield return this[i];
+                }
+            }
         }
+
+        public override string ToString() => new string(SymbolList.ToArray());
     }
 }
