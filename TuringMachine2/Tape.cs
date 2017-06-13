@@ -9,7 +9,7 @@ namespace Marimo.TuringMachineViewer.TuringMachine
     {
         public char Blank { get; }
 
-        public int CurrentIndex { get; set; } = 0;
+        private int CurrentIndex { get; set; } = 0;
 
         private Dictionary<int, char> symbols = new Dictionary<int, char>();
 
@@ -38,7 +38,7 @@ namespace Marimo.TuringMachineViewer.TuringMachine
         public int DistanceFromLeftEnd => CurrentIndex - Math.Min(CurrentIndex, symbols.Any() ? symbols.Keys.Min() : CurrentIndex);
 
 
-        public char this[int index]
+        private char this[int index]
         {
             get
             {
