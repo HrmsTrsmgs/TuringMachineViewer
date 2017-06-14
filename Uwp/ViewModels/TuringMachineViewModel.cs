@@ -66,7 +66,7 @@ namespace Marimo.TuringMachineViewer.Uwp.ViewModels
             {
                 if(!Tape.ContainsKey(index))
                 {
-                    Tape[index] = new SymbolViewModel { Symbol = machine.Tape.Blank };
+                    Tape[index] = new SymbolViewModel { Symbol = machine.Tape[index] };
                 }
                 return Tape[index];
             }

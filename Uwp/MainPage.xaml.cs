@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Marimo.TuringMachineViewer.Uwp.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,12 @@ namespace Uwp
         public MainPage()
         {
             this.InitializeComponent();
+            DataContext = new TuringMachineViewModel();
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
