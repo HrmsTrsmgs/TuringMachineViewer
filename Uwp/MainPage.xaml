@@ -9,20 +9,22 @@
     d:DataContext="{d:DesignInstance Type =vm:TuringMachineViewModel}">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView ItemsSource="{Binding ScopedTape}" SelectionChanged="ListView_SelectionChanged">
+        <Viewbox>
+        <ListView ItemsSource="{Binding ScopedTape}" Margin="0,-4,0,4">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
-                <DataTemplate d:DataContext="{d:DesignInstance Type =vm:SymbolViewModel">
-                    <Border Background="Black">
-                        <TextBlock FontSize="64" Foreground="Red" Text="{Binding Symbol}"></TextBlock>
+                <DataTemplate>
+                    <Border BorderBrush="DarkGreen" BorderThickness="3" CornerRadius="10" Background="LimeGreen" d:DataContext="{d:DesignInstance Type =vm:SymbolViewModel}" Height="100" Width="100">
+                            <TextBlock FontFamily="Consolas" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="64" Foreground="Black" FontStretch="ExtraCondensed" Text="{Binding Symbol}"></TextBlock>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        </Viewbox>
         <Button Command="{Binding MoveCommand}">Step</Button>
     </Grid>
 </Page>

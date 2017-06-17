@@ -30,6 +30,7 @@ namespace Uwp
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            
         }
 
         /// <summary>

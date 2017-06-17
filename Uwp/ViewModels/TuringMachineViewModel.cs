@@ -6,11 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 
 namespace Marimo.TuringMachineViewer.Uwp.ViewModels
 {
     public class TuringMachineViewModel : BindableBase
     {
+
         private Machine machine { get; } = 
                 new Machine('_',
                 "1",
@@ -53,7 +55,7 @@ namespace Marimo.TuringMachineViewer.Uwp.ViewModels
         {
             get
             {
-                for(int i = machine.Tape.CurrentIndex - 10; i <= machine.Tape.CurrentIndex + 10; i++)
+                for (int i = machine.Tape.CurrentIndex - 10; i <= machine.Tape.CurrentIndex + 10; i++)
                 {
                     yield return this[i];
                 }
@@ -74,6 +76,11 @@ namespace Marimo.TuringMachineViewer.Uwp.ViewModels
 
         public TuringMachineViewModel()
         {
+            if(DesignMode.DesignModeEnabled)
+            {
+
+            }
+
             MoveCommand = new DelegateCommand(() =>
             {
                 machine.MoveNext();
