@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type =vm:TuringMachineViewModel}">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Viewbox>
         <ListView ItemsSource="{Binding ScopedTape}" Margin="0,-4,0,4">
             <ListView.ItemsPanel>
@@ -17,14 +17,16 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="DarkGreen" BorderThickness="3" CornerRadius="10" Background="LimeGreen" d:DataContext="{d:DesignInstance Type =vm:SymbolViewModel}" Height="100" Width="100">
+                    <DataTemplate>
+                        <Border BorderBrush="DarkGreen" BorderThickness="3" CornerRadius="10" Background="LimeGreen" d:DataContext="{d:DesignInstance Type =vm:SymbolViewModel}" Height="100" Width="100">
                             <TextBlock FontFamily="Consolas" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="64" Foreground="Black" FontStretch="ExtraCondensed" Text="{Binding Symbol}"></TextBlock>
-                    </Border>
-                </DataTemplate>
+                        </Border>
+                    </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
         </Viewbox>
-        <Button Command="{Binding MoveCommand}">Step</Button>
-    </Grid>
+        <Border BorderBrush="IndianRed" BorderThickness="3" CornerRadius="10" Background="LimeGreen" d:DataContext="{d:DesignInstance Type =vm:SymbolViewModel}" Height="100" Width="100">
+            <Button Command="{Binding MoveCommand}" HorizontalAlignment="Center">Step</Button>
+        </Border>
+    </RelativePanel>
 </Page>
