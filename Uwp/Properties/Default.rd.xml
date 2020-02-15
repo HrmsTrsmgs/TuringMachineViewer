@@ -12,7 +12,7 @@
     <TypeInstantiation Name="App1.AppClass" Arguments="System.Int32" Activate="Required Public" />
 
     名前空間ディレクティブを使用して、特定の名前空間のすべての型にリフレクション ポリシーを適用する
-    <Namespace Name="DataClasses.ViewModels" Seralize="All" />
+    <Namespace Name="DataClasses.ViewModels" Serialize="All" />
 -->
 
 <Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">

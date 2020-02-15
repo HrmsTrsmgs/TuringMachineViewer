@@ -1,40 +1,22 @@
 ﻿using Marimo.TuringMachineViewer.TuringMachine;
+using Prism.Commands;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Xunit;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
 
-namespace Marimo.TuringMachineViewer.Test.TuringMachine
+namespace Marimo.TuringMachineViewer.Uwp.ViewModels
 {
-
-    public class TuringMachineのテスト
+    public class TuringMachineViewModel : BindableBase
     {
-        [Fact]
-        public void 足し算ができます()
-        {
-            var machine =
-                new Machine('_',
-                    "1",
-                    "***_**",
-                    ("1", '*', '*', Direction.Right, "1"),
-                    ("1", '_', '*', Direction.Right, "2"),
-                    ("2", '*', '*', Direction.Right, "2"),
-                    ("2", '_', '_', Direction.Left, "3"),
-                    ("3", '*', '_', Direction.NotMove, "4"));
 
-            while (machine.MoveNext()) ;
-
-            machine.Tape.ToString().Is("*****_");
-        }
-
-        [Fact]
-        public void 掛け算ができます()
-        {
-            var machine =
+        public Machine Machine { get; } = 
                 new Machine(' ',
                 "1",
-                "***X**".ToCharArray(),
+                "***X**",
                 ("1", '*', '*', Direction.Left, "2"),
                 ("2", ' ', '-', Direction.Right, "3"),
                 ("3", ' ', ' ', Direction.Left, "4"),
@@ -67,9 +49,51 @@ namespace Marimo.TuringMachineViewer.Test.TuringMachine
                 ("11", 'X', ' ', Direction.Right, "11"),
                 ("11", 'A', ' ', Direction.Right, "11"));
 
-            while (machine.MoveNext()) ;
+        private Dictionary<int, SymbolViewModel> Tape { get; } = new Dictionary<int, SymbolViewModel>();
 
-            machine.Tape.ToString().Is("1111111_____");
+        public IEnumerable<SymbolViewModel> ScopedTape
+        {
+            get
+            {
+                for (int i = Machine.Tape.CurrentIndex - 10; i <= Machine.Tape.CurrentIndex + 10; i++)
+                {
+                    yield return this[i];
+                }
+            }
         }
+
+        private SymbolViewModel this[int index]
+        {
+            get
+            {
+                if(!Tape.ContainsKey(index))
+                {
+                    Tape[index] = new SymbolViewModel { Symbol = Machine.Tape[index] };
+                }
+                return Tape[index];
+            }
+        }
+
+        public TuringMachineViewModel()
+        {
+            if(DesignMode.DesignModeEnabled)
+            {
+
+            }
+
+            MoveCommand = new DelegateCommand(() =>
+            {
+                Machine.MoveNext();
+                this[Machine.Tape.CurrentIndex - 1].IsCurrent = false;
+                this[Machine.Tape.CurrentIndex - 1].Symbol = Machine.Tape[Machine.Tape.CurrentIndex - 1];
+                this[Machine.Tape.CurrentIndex].IsCurrent = true;
+                this[Machine.Tape.CurrentIndex].Symbol = Machine.Tape.Current;
+                this[Machine.Tape.CurrentIndex + 1].IsCurrent = false;
+                this[Machine.Tape.CurrentIndex + 1].Symbol = Machine.Tape[Machine.Tape.CurrentIndex + 1];
+                RaisePropertyChanged(nameof(ScopedTape));
+            });
+        }
+
+        public DelegateCommand MoveCommand { get; }
     }
 }

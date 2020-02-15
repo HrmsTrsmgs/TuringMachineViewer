@@ -5,28 +5,63 @@
     xmlns:vm="using:Marimo.TuringMachineViewer.Uwp.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type =vm:TuringMachineViewModel}">
-
     <RelativePanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Viewbox>
-        <ListView ItemsSource="{Binding ScopedTape}" Margin="0,-4,0,4">
+        <ListView
+            RelativePanel.AlignTopWithPanel="True"
+            RelativePanel.AlignHorizontalCenterWithPanel="True"
+            RelativePanel.Above="tape"
+            ItemsSource="{Binding Machine.Table}"
+            SelectedValue="{Binding Machine.State}"
+            >
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
+                    <toolkit:WrapPanel></toolkit:WrapPanel>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="DarkGreen" BorderThickness="3" CornerRadius="10" Background="LimeGreen" d:DataContext="{d:DesignInstance Type =vm:SymbolViewModel}" Height="100" Width="100">
-                            <TextBlock FontFamily="Consolas" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="64" Foreground="Black" FontStretch="ExtraCondensed" Text="{Binding Symbol}"></TextBlock>
-                        </Border>
-                    </DataTemplate>
-            </ListView.ItemTemplate>
         </ListView>
+        <Viewbox x:Name="tape" RelativePanel.Above="step">
+            <RelativePanel>
+                <Border BorderThickness="0, 20" BorderBrush="White">
+                    <ListView ItemsSource="{Binding ScopedTape}" Margin="0,-4,0,4">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border d:DataContext="{d:DesignInstance Type =vm:SymbolViewModel}"
+                                        Background="LightSeaGreen"
+                                        Height="100" Width="100">
+                                    <TextBlock FontFamily="Consolas" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               FontSize="64" 
+                                               Foreground="Black"
+            
+                                               FontStretch="ExtraCondensed" Text="{Binding Symbol}"></TextBlock>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Border>
+            <Border
+                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    RelativePanel.AlignVerticalCenterWithPanel="True"
+                    BorderThickness="20"
+                    BorderBrush="Red" Height="140" Width="140">
+            </Border>
+    </RelativePanel>
         </Viewbox>
-        <Border BorderBrush="IndianRed" BorderThickness="3" CornerRadius="10" Background="LimeGreen" d:DataContext="{d:DesignInstance Type =vm:SymbolViewModel}" Height="100" Width="100">
-            <Button Command="{Binding MoveCommand}" HorizontalAlignment="Center">Step</Button>
-        </Border>
+        <Button x:Name="step" 
+                RelativePanel.AlignBottomWithPanel="True"
+                RelativePanel.AlignHorizontalCenterWithPanel="True"
+                Command="{Binding MoveCommand}" d:DataContext="{d:DesignInstance Type =vm:SymbolViewModel}"
+                Margin="10"
+                CornerRadius="10" Background="DeepSkyBlue"  Height="100" Width="100"
+                HorizontalAlignment="Center">Step</Button>
+        
     </RelativePanel>
 </Page>

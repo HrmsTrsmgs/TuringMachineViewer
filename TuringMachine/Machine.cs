@@ -8,13 +8,13 @@ namespace Marimo.TuringMachineViewer.TuringMachine
 {
     public class Machine
     {
-        public string State { get; private set; }
+        public string StateString { get; private set; }
 
         public Tape Tape { get; }
 
         public Machine(char blankSymble, string startState, IEnumerable<char> tape, params (string CurrentState, char ScannedSymbol, char PrintSymbol, Direction MoveTape, string NextState)[] table)
         {
-            State = startState;
+            StateString = startState;
             Tape = new Tape(blankSymble, tape);
             this.table = table.ToDictionary(x => (x.CurrentState, x.ScannedSymbol), x => (x.PrintSymbol, x.MoveTape, x.NextState));
         }
@@ -25,12 +25,12 @@ namespace Marimo.TuringMachineViewer.TuringMachine
         
         public bool MoveNext()
         {
-            var key = (State, Tape.Current);
+            var key = (StateString, Tape.Current);
             if (table.ContainsKey(key))
             {
                 var next = table[key];
                 Tape.Current = next.PrintSymbol;
-                State = next.NextState;
+                StateString = next.NextState;
                 Tape.Move(next.MoveTape);
                 return true;
             }
@@ -40,14 +40,23 @@ namespace Marimo.TuringMachineViewer.TuringMachine
             }
         }
 
+        public (char PrintSymbol, Direction MoveTape, string NextState)? State
+        {
+            get
+            {
+                var key = (StateString, Tape.Current);
+                if (table.ContainsKey(key))
+                {
+                    return table[key];
+                }
+                return null;
+            }
+        }
+
+
         public override string ToString()
         {
-            var key = (State, Tape.Current);
-            if (table.ContainsKey(key))
-            {
-                return table[key].ToString();
-            }
-            return "End";
+            return State?.ToString() ?? "End";
         }
     }
 }

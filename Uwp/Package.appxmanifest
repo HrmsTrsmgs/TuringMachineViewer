@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="99c6a6f0-b132-4257-a770-70c7e4ce9eb5"
-    Publisher="CN=nitta"
+    Name="76174c3a-bc92-4ba7-98b2-fd8ac40421f5"
+    Publisher="CN=potim"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="99c6a6f0-b132-4257-a770-70c7e4ce9eb5" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="76174c3a-bc92-4ba7-98b2-fd8ac40421f5" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Uwp</DisplayName>
-    <PublisherDisplayName>nitta</PublisherDisplayName>
+    <PublisherDisplayName>potim</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
